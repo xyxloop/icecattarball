@@ -20,12 +20,13 @@ jobs:
       run: |
         cd gnuzilla-master
         ./makeicecat
-        ls -lt output/
+        mkdir tarballfile
+        cp output/icecat-78.9.0-gnu1.tar.bz2 tarballfile/
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
         name: IceCattarball
-        files: gnuzilla-master/output/icecat-78.9.0-gnu1.tar.bz2
+        path: gnuzilla-master/output/tarballfile
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
