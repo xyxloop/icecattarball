@@ -10,6 +10,8 @@ jobs:
     - name: Install depends
       run: |
         sudo apt-get -y install imagemagick cdbs bzr
+        wget http://rsync.trisquel.info/trisquel/pool/main/r/rename/rename_1.10-1_all.deb
+        sudo dpkg -i rename_1.10-1_all.deb
     - name: Download source code
       run: |
         wget https://git.savannah.gnu.org/cgit/gnuzilla.git/snapshot/gnuzilla-master.tar.gz
