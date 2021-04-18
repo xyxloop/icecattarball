@@ -9,7 +9,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install depends
       run: |
-        sudo apt-get -y install imagemagick cdbs bzr
+        sudo apt-get -y install cdbs bzr
         wget http://rsync.trisquel.info/trisquel/pool/main/r/rename/rename_1.10-1_all.deb
         sudo dpkg -i rename_1.10-1_all.deb
     - name: Download source code
