@@ -9,7 +9,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install depends
       run: |
-        sudo apt-get -y install autotrace imagemagick cdbs bzr
+        sudo apt-get -y install imagemagick cdbs bzr
     - name: Download source code
       run: |
         wget https://git.savannah.gnu.org/cgit/gnuzilla.git/snapshot/gnuzilla-master.tar.gz
