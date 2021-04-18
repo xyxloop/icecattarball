@@ -26,10 +26,9 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: IceCattarball
-        path: gnuzilla-master/output/tarballfile
+        path: gnuzilla-master/tarballfile
     - name: Release
       uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
       with:
         files: gnuzilla-master/output/icecat-78.9.0-gnu1.tar.bz2
       env:
