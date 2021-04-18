@@ -13,7 +13,7 @@ jobs:
     - name: Download source code
       run: |
         wget https://git.savannah.gnu.org/cgit/gnuzilla.git/snapshot/gnuzilla-master.tar.gz
-        tar xjzf gnuzilla-master.tar.gz
+        tar xzf gnuzilla-master.tar.gz
     - name: Build
       run: |
         cd gnuzilla-master
