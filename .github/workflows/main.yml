@@ -1,0 +1,33 @@
+name: Build IceCat tarball file
+on: push
+jobs:
+ build:
+  runs-on: ubuntu-latest
+  name: Build IceCat tarball file
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install depends
+      run: |
+        sudo apt-get -y install autotrace imagemagick cdbs bzr
+    - name: Download source code
+      run: |
+        wget https://git.savannah.gnu.org/cgit/gnuzilla.git/snapshot/gnuzilla-master.tar.gz
+        tar xjzf gnuzilla-master.tar.gz
+    - name: Build
+      run: |
+        cd gnuzilla-master
+        ./makeicecat
+        ls -lt output/
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: IceCattarball
+        files: gnuzilla-master/output/icecat-78.9.0-gnu1.tar.bz2
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: gnuzilla-master/output/icecat-78.9.0-gnu1.tar.bz2
+      env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
