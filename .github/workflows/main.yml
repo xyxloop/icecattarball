@@ -21,7 +21,7 @@ jobs:
         cd gnuzilla-master
         ./makeicecat
         mkdir tarballfile
-        cp output/icecat-78.9.0-gnu1.tar.bz2 tarballfile/
+        cp output/icecat-78.10.0-gnu1.tar.bz2 tarballfile/
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
