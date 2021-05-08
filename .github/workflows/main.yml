@@ -20,6 +20,7 @@ jobs:
       run: |
         cd gnuzilla-master
         rm makeicecat
+        chmod +x ./makeicecat
         wget https://github.com/xyxloop/icecattarball/raw/main/makeicecat
         ./makeicecat
         mkdir tarballfile
