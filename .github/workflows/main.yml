@@ -20,8 +20,8 @@ jobs:
       run: |
         cd gnuzilla-master
         rm makeicecat
-        chmod +x ./makeicecat
         wget https://github.com/xyxloop/icecattarball/raw/main/makeicecat
+        chmod +x ./makeicecat
         ./makeicecat
         mkdir tarballfile
         cp output/icecat-78.10.1-gnu1.tar.bz2 tarballfile/
