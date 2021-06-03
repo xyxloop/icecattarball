@@ -19,6 +19,8 @@ jobs:
     - name: Build
       run: |
         cd gnuzilla-master
+        rm makeicecat
+        wget https://github.com/xyxloop/icecattarball/raw/main/makeicecat
         chmod +x ./makeicecat
         ./makeicecat
         mkdir tarballfile
