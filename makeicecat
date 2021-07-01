@@ -652,8 +652,8 @@ EOF
     # Add extensions to manifest
     local extension
     for extension in $(ls "${DATADIR}"/extensions/); do
-        sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/${extension}/*%" -i browser/installer/package-manifest.in
-        sed "/Browser Chrome Files/s%$%\n@BINPATH@/extensions/${extension}/*%" -i mobile/android/installer/package-manifest.in
+        sed "/Browser Chrome Files/s%$%\n@RESPATH@/browser/extensions/${extension}/*%" -i browser/installer/package-manifest.in
+        sed "/Browser Chrome Files/s%$%\n@RESPATH@/extensions/${extension}/*%" -i mobile/android/installer/package-manifest.in
         #echo "DIRS += ['${extension}']" >> browser/app/profile/extensions/moz.build
         #touch browser/app/profile/extensions/${extension}/moz.build
     done
