@@ -5,8 +5,6 @@ jobs:
   runs-on: ubuntu-latest
   name: Build IceCat tarball file
   steps:
-    - name: Checkout
-      uses: actions/checkout@v2
     - name: Install depends
       run: |
         sudo apt-get -y install cdbs bzr
@@ -19,12 +17,10 @@ jobs:
     - name: Build
       run: |
         cd gnuzilla-master
-        rm makeicecat
-        wget https://github.com/xyxloop/icecattarball/raw/main/makeicecat
         chmod +x ./makeicecat
         ./makeicecat
         mkdir tarballfile
-        cp output/icecat-78.11.0-gnu1.tar.bz2 tarballfile/
+        cp output/icecat-78.12.0-gnu1.tar.bz2 tarballfile/
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
