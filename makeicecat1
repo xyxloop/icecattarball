@@ -728,7 +728,7 @@ fetch_source
 verify_sources
 extract_sources
 fetch_l10n
-apply_patches
+#apply_patches
 configure
 configure_mobile
 apply_branding
