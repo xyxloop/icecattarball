@@ -250,36 +250,36 @@ fetch_l10n()
     rm -rf ${SOURCEDIR}/l10n/compare-locales/{.git,.hg}*
 }
 
-apply_patches()
-{
-    cd ${SOURCEDIR}
+#apply_patches()
+#{
+#    cd ${SOURCEDIR}
 
-    local patch
-    local file_to_append
-    local dir
+    #local patch
+    #local file_to_append
+    #local dir
 
-    shopt -s nullglob
-    for patch in "${DATADIR}"/patches/*.patch; do
-        echo Patching with file: $patch
-        patch -p1 --force --no-backup-if-mismatch --input $patch
-    done
-    shopt -u nullglob
+    #shopt -s nullglob
+    #for patch in "${DATADIR}"/patches/*.patch; do
+       # echo Patching with file: $patch
+       # patch -p1 --force --no-backup-if-mismatch --input $patch
+    #done
+    #shopt -u nullglob
 
-    for file_to_append in $(cd "${DATADIR}"/files-to-append; find . -type f -print); do
-        echo Appending new data to the end of file: $file_to_append
-        cat "${DATADIR}"/files-to-append/$file_to_append >> $file_to_append
-    done
+    #for file_to_append in $(cd "${DATADIR}"/files-to-append; find . -type f -print); do
+     #   echo Appending new data to the end of file: $file_to_append
+      #  cat "${DATADIR}"/files-to-append/$file_to_append >> $file_to_append
+    #done
 
-    for dir in l10n/*; do
-        if [[ $dir != l10n/compare-locales ]]; then
-            if [[ ! -e ${DATADIR}/files-to-append/${dir}/${PREFS_OUT_FILE} ]]; then
-                cat ${DATADIR}/files-to-append/${PREFS_IN_FILE} >> ${dir}/${PREFS_OUT_FILE}
-            fi
-        fi
-    done
+    #for dir in l10n/*; do
+     #   if [[ $dir != l10n/compare-locales ]]; then
+      #      if [[ ! -e ${DATADIR}/files-to-append/${dir}/${PREFS_OUT_FILE} ]]; then
+       #         cat ${DATADIR}/files-to-append/${PREFS_IN_FILE} >> ${dir}/${PREFS_OUT_FILE}
+        #    fi
+        #fi
+   # done
 
-    cp "${DATADIR}"/Changelog.IceCat "${DATADIR}"/README.IceCat .
-}
+    #cp "${DATADIR}"/Changelog.IceCat "${DATADIR}"/README.IceCat .
+#}
 
 configure()
 {
