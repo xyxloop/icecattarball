@@ -21,15 +21,15 @@
 
 
 # metadata
-readonly FFMAJOR=90
+readonly FFMAJOR=91
 readonly FFMINOR=0
-readonly FFSUB=
+readonly FFSUB=1
 readonly GNUVERSION=1
-readonly SOURCEBALL_CHECKSUM='43a943e7d7660c6d7f5b41c95b344b7fd6a4a88ad0bb45dbd844b372ea60d58b'
+readonly SOURCEBALL_CHECKSUM='c185dc9791ed8f4ea204cdf244a72388b3b5e5d7c2bbb5db8051c903908473c7'
 readonly SOURCEBALL_SIGNINGKEY='14F26682D0916CDD81E37B6D61B7B526D98F0353'
-readonly FFVERSION=${FFMAJOR}.${FFMINOR}
-readonly SOURCEBALL=firefox-${FFVERSION}.source.tar.xz
-readonly SOURCEBALL_URL=https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}/source/${SOURCEBALL}
+readonly FFVERSION=${FFMAJOR}.${FFMINOR}.${FFSUB}
+readonly SOURCEBALL=firefox-${FFVERSION}esr.source.tar.xz
+readonly SOURCEBALL_URL=https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/${SOURCEBALL}
 readonly KEYSERVER=keyserver.ubuntu.com
 
 # branding
@@ -203,9 +203,9 @@ fetch_source()
 verify_sources()
 {
     echo Verifying Firefox tarball
-    #gpg --recv-keys --keyserver keyserver.ubuntu.com ${SOURCEBALL_SIGNINGKEY}
-    #gpg --verify ${SOURCEBALL}.asc
-    #echo -n ${SOURCEBALL_CHECKSUM} ${SOURCEBALL} | sha256sum -c -
+    gpg --recv-keys --keyserver keyserver.ubuntu.com ${SOURCEBALL_SIGNINGKEY}
+    gpg --verify ${SOURCEBALL}.asc
+    echo -n ${SOURCEBALL_CHECKSUM} ${SOURCEBALL} | sha256sum -c -
 }
 
 extract_sources()
@@ -432,7 +432,7 @@ apply_batch_branding()
     find . | tac | grep -i firefox | ${RENAME_CMD} --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
     find services/fxaccounts/rust-bridge | tac | ${RENAME_CMD} --nofullpath -E 's/icecat-accounts/firefox-accounts/;' -E 's/IceCatAccounts/FirefoxAccounts/;'
 
-    echo "Running batch rebranding"
+    echo "Running batch rebranding (this will take a while)"
     local sed_script="
 s|marketplace\\.firefox\\.com|f-droid.org/repository/browse|g;
 s/org\\.mozilla\\.firefox/org.gnu.icecat/g;
@@ -447,6 +447,7 @@ s|mozilla\\.com/plugincheck|${ADDONS_URL}|g;
 s|www\\.mozilla\\.com/firefox/central|${INFO_URL}|g;
 s|www\\.mozilla.*/legal/privacy.*html|${LEGALINFO_URL}|g;
 s|www\\.mozilla.*/legal/privacy|${LEGALINFO_URL}|g;
+
 s/Mozilla Firefox/GNU IceCat/g;
 s/firefox/icecat/g;
 s/fennec/icecatmobile/g;
@@ -455,6 +456,7 @@ s/Fennec/IceCatMobile/g;
 s/FIREFOX/ICECAT/g;
 s/FENNEC/ICECATMOBILE/g;
 s/ Mozilla / GNU /g;
+
 s|PACKAGES/icecat|PACKAGES/firefox|g;
 s/GNU Public/Mozilla Public/g;
 s/GNU Foundation/Mozilla Foundation/g;
@@ -464,6 +466,7 @@ s/IceCat-Spdy/Firefox-Spdy/g;
 s/icecat-accounts/firefox-accounts/g;
 s/IceCatAccounts/FirefoxAccounts/g;
 s|https://www\\.mozilla\\.org/icecat/?utm_source=synceol|https://www.mozilla.org/firefox/?utm_source=synceol|g;
+
 s|www\\.gnu\\.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
 "
     find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -not -iregex '.*third_party/rust.*' -execdir /bin/sed --follow-symlinks -i "${sed_script}" '{}' ';'
@@ -612,18 +615,24 @@ prepare_macos_packaging()
 #!/bin/sh
 set -e
 export LC_ALL=C
+
 cd \$2
 DMGFILE=\$4
+
 # We need group readability for some Macs to be able to handle /Applications
 # installation. Still unclear exactly why this is -- it is not dependent on
 # OSX version...
 find . -executable -exec chmod 750 {} \;
 find . ! -executable -exec chmod 640 {} \;
+
 find . -type f | sed -e 's/^\.\///' | sort | xargs -i echo "{}={}" > /tmp/filelist.txt
 find . -type l | sed -e 's/^\.\///' | sort | xargs -i echo "{}={}" >> /tmp/filelist.txt
+
 mkisofs -D -V "\$6" -no-pad -R -apple -o /tmp/icecat-uncompressed.dmg -path-list /tmp/filelist.txt -graft-points -gid 20 -dir-mode 0750 -new-dir-mode 0750
+
 dmg dmg /tmp/icecat-uncompressed.dmg \$4
 rm /tmp/icecat-uncompressed.dmg
+
 find . -executable -exec chmod 755 {} \;
 find . ! -executable -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
