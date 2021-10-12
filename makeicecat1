@@ -873,9 +873,9 @@ configure_extensions
 configure_onboarding
 apply_bugfixes
 finalize_sourceball
-readonly DEVEL=0
-set -euo pipefail
-(( DEVEL )) && set -x
+#readonly DEVEL=0
+#set -euo pipefail
+#(( DEVEL )) && set -x
 
 
 ###############################################################################
