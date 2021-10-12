@@ -1,0 +1,30 @@
+name: Build IceCat tarball file
+on: push
+jobs:
+ build:
+  runs-on: ubuntu-latest
+  name: Build IceCat tarball file
+  steps:
+    - name: Install depends
+      run: |
+        sudo apt-get -y install cdbs bzr
+        wget http://rsync.trisquel.info/trisquel/pool/main/r/rename/rename_1.10-1+9.0trisquel1_all.deb
+        sudo dpkg -i rename_1.10-1+9.0trisquel1_all.deb
+    - name: Download source code
+      run: |
+        wget https://git.savannah.gnu.org/cgit/gnuzilla.git/snapshot/gnuzilla-master.tar.gz
+        tar xzf gnuzilla-master.tar.gz
+    - name: Build
+      run: |
+        cd gnuzilla-master
+        rm makeicecat
+        wget -O makeicecat https://github.com/xyxloop/icecattarball/raw/main/makeicecat1
+        chmod +x ./makeicecat
+        ./makeicecat
+        mkdir tarballfile
+        cp output/icecat-91.2.0-gnu1.tar.bz2 tarballfile/
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: IceCattarball
+        path: gnuzilla-master/tarballfile
