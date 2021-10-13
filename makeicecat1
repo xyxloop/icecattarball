@@ -957,7 +957,7 @@ validate_env()
     local rename_cmd
     local required_ver
     for rename_cmd in ${rename_cmds[@]}
-    do which ${rename_cmd} &> /dev/null && RENAME_CMD=${rename_cmd}
+    do which ${rename_cmd} &> /dev/null #&& RENAME_CMD=${rename_cmd}
     done
     readonly RENAME_CMD
     if ! ( [[ "$( ${RENAME_CMD} --version )" =~ 'File::Rename version '([0-9]+)\.([0-9]+) ]] &&
