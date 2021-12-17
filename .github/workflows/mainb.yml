@@ -8,7 +8,7 @@ jobs:
     - name: Install depends
       run: |
         sudo apt-get -y install cdbs bzr
-        wget http://rsync.trisquel.info/trisquel/pool/main/r/rename/rename_1.10-1+9.0trisquel1_all.deb
+        wget https://mirrors.ocf.berkeley.edu/trisquel/pool/main/r/rename/rename_1.10-1%2B9.0trisquel1_all.deb
         sudo dpkg -i rename_1.10-1+9.0trisquel1_all.deb
     - name: Download source code
       run: |
