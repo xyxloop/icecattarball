@@ -22,7 +22,7 @@ jobs:
         chmod +x ./makeicecat
         ./makeicecat
         mkdir tarballfile
-        cp output/icecat-91.9.1-gnu1.tar.bz2 tarballfile/
+        cp output/icecat-91.10.0-gnu1.tar.bz2 tarballfile/
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
